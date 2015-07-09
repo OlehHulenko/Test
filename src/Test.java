@@ -5,6 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.ServletException;
 
+import java.io.FileReader;
 import java.io.IOException;
 
 import org.eclipse.jetty.server.Server;
@@ -22,9 +23,17 @@ public class HulenkoOleg extends AbstractHandler
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         baseRequest.setHandled(true);
-        String fileAdress = "D:/Test" + request.getRequestURI();
-        String s = JavaIO.read(fileAdress);
-        response.getWriter().println("<h1>" + s + "</h1>");
+        response.getWriter().println("<h1>Hello HulenkoOleg</h1>");
+        StringBuffer url = baseRequest.getRequestURL();
+        FileReader reader = new FileReader(String.valueOf(url));
+        while (reader.ready())
+        {
+            int data = reader.read();
+            response.getWriter().println(data);
+        }
+        reader.close();
+
+
     }
 
     public static void main(String[] args) throws Exception
@@ -36,3 +45,4 @@ public class HulenkoOleg extends AbstractHandler
         server.join();
     }
 }
+
